@@ -10,17 +10,9 @@ public class UpdateArticleRequest : IUpdateRequest<int>
     public string Name { get; set; }
     public decimal Price { get; set; }
 
-    public UpdateArticleRequest(int articleId, string sku, string name, decimal price)
+    public UpdateArticleRequest(Article article)
     {
-        ArticleId = articleId;
-        Sku = sku;
-        Name = name;
-        Price = price;
-    }
-
-    public UpdateArticleRequest(int id, Article article)
-    {
-        ArticleId = id;
+        ArticleId = article.ArticleId;
         Sku = article.Sku ?? "";
         Name = article.Name ?? "";
         Price = article.Price ?? 0;

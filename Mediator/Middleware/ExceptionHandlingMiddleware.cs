@@ -44,7 +44,7 @@ public class ExceptionHandlingMiddleware : IMiddleware
                     statusCode = (int)Enumerable
                         .FirstOrDefault<object>(validationException.Errors
                             .Where(failure => failure.CustomState != null)
-                            .Select(failure => failure.CustomState));//StatusCodes.Status400BadRequest
+                            .Select(failure => failure.CustomState))!;//StatusCodes.Status400BadRequest
                     message = String.Join((string)"\r\n", (IEnumerable<string>)validationException.Errors.Select(failure => failure.ErrorMessage));
                     break;
                 default:

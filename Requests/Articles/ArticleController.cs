@@ -80,7 +80,7 @@ public class ArticleController : ControllerBase
     /// <returns>Return a collection of <see cref="Article" />.</returns>
     /// <remarks>Permission `EventTypeThresholds:Get` required.</remarks>
     /// <response code="200">Successful response - returns a set of event type thresholds.</response>
-    [HttpGet("{Articles}")]
+    [HttpGet]
     [ProducesResponseType(typeof(List<Article>), StatusCodes.Status200OK)]
     public async Task<ActionResult<List<Article>>> GetArticlesAsync(CancellationToken cancellationToken = default)
     {
@@ -95,7 +95,7 @@ public class ArticleController : ControllerBase
     /// <returns>Return a collection of <see cref="Article" />.</returns>
     /// <remarks>Permission `EventTypeThresholds:Get` required.</remarks>
     /// <response code="200">Successful response - returns a set of event type thresholds.</response>
-    [HttpGet("{ArticleId}")]
+    [HttpGet("{articleId}")]
     [ProducesResponseType(typeof(Article), StatusCodes.Status200OK)]
     public async Task<ActionResult<Article>> GetArticleByIdAsync([Required] int articleId, CancellationToken cancellationToken = default)
     {
@@ -120,17 +120,16 @@ public class ArticleController : ControllerBase
     /// <summary>
     ///     Get all Articles.
     /// </summary>
-    /// <param name="articleId">The Article Id for the Article to update.</param>
     /// <param name="article">The Article Model containing all the details for Article to be created.</param>
     /// <param name="cancellationToken">A token which can be used to cancel the operation.</param>
     /// <returns>Return a collection of <see cref="Article" />.</returns>
     /// <remarks>Permission `EventTypeThresholds:Get` required.</remarks>
     /// <response code="204">Successful response - returns a set of event type thresholds.</response>
-    [HttpPut("{ArticleId}")]
+    [HttpPut("{articleId}")]
     [ProducesResponseType(typeof(Article), StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<int>> UpdateArticleAsync([Required] int articleId, [FromBody] Article article, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<int>> UpdateArticleAsync([FromBody] Article article, CancellationToken cancellationToken = default)
     {
-        return await new UpdateArticleRequest(articleId, article).SendAsActionResult(mediator, cancellationToken);
+        return await new UpdateArticleRequest(article).SendAsActionResult(mediator, cancellationToken);
     }
 
     /// <summary>
@@ -141,7 +140,7 @@ public class ArticleController : ControllerBase
     /// <returns>Return a collection of <see cref="Article" />.</returns>
     /// <remarks>Permission `EventTypeThresholds:Get` required.</remarks>
     /// <response code="204">Successful response - returns a set of event type thresholds.</response>
-    [HttpDelete("{ArticleId}")]
+    [HttpDelete("{articleId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> DeleteArticleAsync([Required] int articleId, CancellationToken cancellationToken = default)
     {
