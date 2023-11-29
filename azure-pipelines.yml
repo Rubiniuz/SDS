@@ -1,0 +1,50 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+# This is the default pipeline that works on my local azure server.
+
+trigger:
+- master
+
+pool:
+  name: 'default'
+  
+parameters:
+  - name: buildPlatform
+    displayName: buildPlatform
+    type: string
+    default: 'Any CPU'
+
+  - name: buildConfiguration
+    displayName: buildConfiguration
+    type: string
+    default: 'Debug'
+
+variables:
+  solution: '**/*.sln'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    platform: 'Any CPU'
+    configuration: '$(buildConfiguration)'
+    type: 'DotNetFolderPublish'
+    deleteExistingFiles: true
+    runtime: 'Portable'
+    outputFolder: '$(build.artifactstagingdirectory)'
+    targetFramework: 'net6.0'
+    
+
+- task: VSTest@2
+  inputs:
+    platform: 'Any CPU'
+    configuration: '$(buildConfiguration)'
